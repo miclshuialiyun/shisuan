@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>时算 — 自由职业报价与真实时薪计算器</title>
+<meta name="description" content="时算把社保、设备折旧、沟通、返工、税费这些隐性成本算清楚，告诉你一个项目的真实时薪是多少。本地离线、零收集、无广告。">
+<style>
+  :root{
+    --ink:#0E1220; --muted:#5B6580; --line:#DFE5F2; --bg:#F4F6FC; --soft:#EDF1FA;
+    --indigo:#2E3A8C; --indigo-deep:#1B2459; --gold:#A7781A; --gold-bright:#F5C86B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    color:var(--ink);line-height:1.75;background:var(--bg);-webkit-font-smoothing:antialiased;
+  }
+  header{
+    background:linear-gradient(160deg,#1B2459 0%,#3A3C93 55%,#6A5BD8 100%);
+    color:#fff;padding:64px 20px 56px;text-align:center;
+  }
+  header .logo{display:inline-flex;align-items:center;gap:12px;font-size:24px;font-weight:800;letter-spacing:.5px;}
+  header .logo .dot{width:12px;height:12px;border-radius:50%;background:var(--gold-bright);box-shadow:0 0 0 5px rgba(245,200,107,.24);}
+  header h1{font-size:40px;margin-top:20px;font-weight:900;letter-spacing:1px;}
+  header p.tag{opacity:.9;margin-top:12px;font-size:18px;}
+  header p.sub{opacity:.72;margin-top:8px;font-size:14px;}
+  nav{
+    background:var(--soft);border-bottom:1px solid var(--line);
+    padding:12px 20px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;
+    position:sticky;top:0;z-index:10;
+  }
+  nav a{text-decoration:none;color:var(--indigo);font-weight:600;font-size:14px;padding:6px 14px;border-radius:999px;border:1px solid transparent;}
+  nav a:hover{background:#fff;border-color:var(--line);}
+  main{max-width:940px;margin:0 auto;padding:44px 20px 64px;}
+  section{margin-bottom:48px;}
+  h2{font-size:24px;margin:0 0 18px;color:var(--indigo-deep);text-align:center;}
+  .lead{text-align:center;color:var(--muted);max-width:660px;margin:0 auto 30px;font-size:15px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;}
+  .card .ico{font-size:26px;}
+  .card h3{font-size:17px;margin:10px 0 6px;color:var(--indigo-deep);}
+  .card p{font-size:14px;color:#4b5563;}
+  .formula{
+    background:linear-gradient(160deg,#1B2459 0%,#2E3A8C 100%);
+    color:#fff;border-radius:20px;padding:30px 26px;margin:26px 0;
+  }
+  .formula h3{font-size:16px;color:var(--gold-bright);margin-bottom:12px;letter-spacing:.5px;}
+  .formula ol{padding-left:20px;font-size:14.5px;opacity:.94;}
+  .formula li{margin:7px 0;}
+  .formula .big{
+    margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,.18);
+    font-size:20px;font-weight:800;color:var(--gold-bright);
+  }
+  .pills{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:22px;}
+  .pill{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);
+    border-radius:999px;padding:6px 16px;font-size:13px;}
+  .cards-free{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;}
+  .plan{border:1px solid var(--line);border-radius:18px;padding:24px;text-align:center;background:#fff;}
+  .plan.feature{border-color:var(--gold);box-shadow:0 8px 26px rgba(167,120,26,.14);}
+  .plan .badge{display:inline-block;background:var(--gold);color:#3B2A05;
+    font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;margin-bottom:10px;}
+  .plan h3{font-size:20px;color:var(--indigo-deep);}
+  .plan .price{font-size:30px;font-weight:900;color:var(--gold);margin:10px 0 4px;}
+  .plan .price small{font-size:13px;font-weight:600;color:var(--muted);}
+  .plan ul{list-style:none;margin-top:14px;text-align:left;}
+  .plan li{font-size:14px;padding:7px 0;border-bottom:1px dashed var(--line);display:flex;gap:8px;}
+  .plan li:last-child{border-bottom:0;}
+  .plan li.ok{color:#1A9E68;}
+  .plan li.no{color:#9aa3b8;}
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;}
+  th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;font-size:14px;}
+  th{background:var(--soft);color:var(--indigo-deep);font-weight:700;}
+  td.num{font-variant-numeric:tabular-nums;text-align:right;}
+  .disclaimer{
+    background:#FFF8E8;border:1px solid #E8D6A6;border-radius:14px;
+    padding:16px 18px;font-size:13px;color:#7a5a12;
+  }
+  footer{border-top:1px solid var(--line);background:#fff;padding:34px 20px 46px;text-align:center;color:var(--muted);font-size:13px;}
+  footer a{color:var(--indigo);text-decoration:none;}
+  footer a:hover{text-decoration:underline;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><span class="dot"></span>时算</div>
+  <h1>你的时间，值多少钱？</h1>
+  <p class="tag">把社保、设备、沟通、返工、税费算清楚，再报价</p>
+  <p class="sub">本地离线 · 零收集 · 无广告 · 一次买断</p>
+  <div class="pills">
+    <span class="pill">不上传任何数据</span>
+    <span class="pill">无第三方 SDK</span>
+    <span class="pill"> iPhone 专用</span>
+  </div>
+</header>
+
+<nav>
+  <a href="#problem">痛点</a>
+  <a href="#formula">算法</a>
+  <a href="#features">功能</a>
+  <a href="#pricing">版本</a>
+  <a href="#privacy">隐私</a>
+  <a href="#faq">常见问题</a>
+  <a href="support.html">技术支持</a>
+  <a href="privacy.html">隐私政策</a>
+</nav>
+
+<main>
+
+<section id="problem">
+  <h2>拍脑袋报价，正在偷偷吃掉你的收入</h2>
+  <p class="lead">
+    接单时你只算了「工时 × 时薪」。但社保要自己缴、电脑会折旧、需求要反复沟通、
+    稿子会返工、开票还要交税 —— 这些没算进去的钱，就是你的时薪缩水的部分。
+  </p>
+  <div class="grid">
+    <div class="card">
+      <div class="ico">🧾</div>
+      <h3>社保自缴</h3>
+      <p>没有公司帮你分担，每月几千块全额从接单收入里出，却从没被算进报价。</p>
+    </div>
+    <div class="card">
+      <div class="ico">💻</div>
+      <h3>设备折旧</h3>
+      <p>电脑、相机、软件订阅都在贬值，三年换一次设备，成本被摊到了每一个项目里。</p>
+    </div>
+    <div class="card">
+      <div class="ico">💬</div>
+      <h3>沟通耗时</h3>
+      <p>对齐需求、来回改稿、汇报进度 —— 这些时间不计费，但确实被花掉了。</p>
+    </div>
+    <div class="card">
+      <div class="ico">🔁</div>
+      <h3>返工预留</h3>
+      <p>需求变更、客户反悔、临时加急。不预留返工，就只能用利润去填坑。</p>
+    </div>
+  </div>
+</section>
+
+<section id="formula">
+  <h2>时算的算法</h2>
+  <p class="lead">所有公式在 App 内与官网完全一致，没有黑箱。每一项都可以单独开关。</p>
+  <div class="formula">
+    <h3>报价是怎么算出来的</h3>
+    <ol>
+      <li>基础工时费 = 期望时薪 × 预估工时</li>
+      <li>社保分摊 = (月自缴额 ÷ 月可计费工时) × 预估工时</li>
+      <li>设备折旧 = (设备购入价 ÷ 使用年限 ÷ 年接单工时) × 预估工时</li>
+      <li>沟通预留 = (预估工时 × 沟通比例) × 期望时薪，同时计入「沟通工时」</li>
+      <li>返工预留 = (预估工时 × 返工比例) × 期望时薪，同时计入「返工工时」</li>
+      <li>总成本 = 以上各项 + 直接成本（外包 / 素材 / 差旅）</li>
+      <li>利润 = 总成本 × 期望利润率</li>
+      <li>税费 = (总成本 + 利润) × 税率　<span style="opacity:.75">← 价外税，与开票口径一致</span></li>
+    </ol>
+    <div class="big">建议报价 = 总成本 + 利润 + 税费</div>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>对比项</th><th class="num">朴素报价</th><th class="num">时算建议报价</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>价格</td><td class="num">¥8,000</td><td class="num">¥14,275.80</td></tr>
+      <tr><td>总投入工时（含沟通 8h、返工 6h）</td><td class="num">54 小时</td><td class="num">54 小时</td></tr>
+      <tr><td>真实时薪</td><td class="num">¥148.15</td><td class="num">¥264.37</td></tr>
+      <tr><td>与期望时薪 ¥200 的差距</td><td class="num">缩水 25.92%</td><td class="num">不缩水</td></tr>
+    </tbody>
+  </table>
+  <p class="lead" style="margin-top:14px;font-size:13px">
+    示例条件：期望时薪 200 元 / 小时，预估 40 小时，5 项隐性成本全开、默认参数。<br>
+    差额 ¥6,275.80 —— 就是拍脑袋报价会让你少收的钱。
+  </p>
+</section>
+
+<section id="features">
+  <h2>功能</h2>
+  <p class="lead">一个专注的工具，不塞进无关的东西。</p>
+  <div class="grid">
+    <div class="card">
+      <div class="ico">⏱️</div>
+      <h3>报价测算</h3>
+      <p>输入期望时薪与工时，实时算出建议报价、保本报价、真实时薪、净时薪与时薪缩水率。</p>
+    </div>
+    <div class="card">
+      <div class="ico">🎛️</div>
+      <h3>5 项隐性成本开关</h3>
+      <p>社保、设备、沟通、返工、税费。每项可单独开关，参数都能微调，不合适就关掉。</p>
+    </div>
+    <div class="card">
+      <div class="ico">📊</div>
+      <h3>报价构成</h3>
+      <p>堆叠条 + 明细公式，每一分钱去哪了一目了然，可以直接跟客户解释。</p>
+    </div>
+    <div class="card">
+      <div class="ico">🗂️</div>
+      <h3>方案管理</h3>
+      <p>把不同项目存成方案，横向对比真实时薪，一眼看出哪单更值。</p>
+    </div>
+    <div class="card">
+      <div class="ico">📄</div>
+      <h3>PDF 报价单</h3>
+      <p>带成本明细与免责声明的 A4 报价单，可直接发给客户。高级版功能。</p>
+    </div>
+    <div class="card">
+      <div class="ico">💾</div>
+      <h3>备份导入导出</h3>
+      <p>JSON 备份，换机重装都能恢复。App 不保留副本，文件由你自己保管。</p>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <h2>版本与定价</h2>
+  <p class="lead">核心测算完全免费，付费解锁的是「把工作流用起来」。</p>
+  <div class="cards-free">
+    <div class="plan">
+      <h3>免费版</h3>
+      <div class="price">¥0 <small>永久</small></div>
+      <ul>
+        <li class="ok">✓ 报价测算（全部功能）</li>
+        <li class="ok">✓ 5 项隐性成本开关与参数微调</li>
+        <li class="ok">✓ 报价构成明细</li>
+        <li class="ok">✓ 保存 1 套方案</li>
+        <li class="no">✗ 多方案对比</li>
+        <li class="no">✗ PDF 报价单</li>
+        <li class="no">✗ 无限保存方案</li>
+      </ul>
+    </div>
+    <div class="plan feature">
+      <span class="badge">高级版</span>
+      <h3>一次买断</h3>
+      <div class="price">¥18 <small>终身有效</small></div>
+      <ul>
+        <li class="ok">✓ 免费版全部功能</li>
+        <li class="ok">✓ 无限保存方案</li>
+        <li class="ok">✓ 多方案横向对比</li>
+        <li class="ok">✓ PDF 报价单导出</li>
+        <li class="ok">✓ 方案备份导入导出</li>
+        <li class="ok">✓ 不含订阅，不自动续费</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="privacy">
+  <h2>隐私承诺</h2>
+  <p class="lead">这条我们写进了产品，不是写在墙上。</p>
+  <div class="grid">
+    <div class="card">
+      <div class="ico">🔒</div>
+      <h3>零收集</h3>
+      <p>不收集任何数据。没有账号体系，没有注册登录，什么都不问你要。</p>
+    </div>
+    <div class="card">
+      <div class="ico">📴</div>
+      <h3>全离线</h3>
+      <p>所有计算与存储都在你的设备上完成，断网照常用。</p>
+    </div>
+    <div class="card">
+      <div class="ico">🚫</div>
+      <h3>无第三方 SDK</h3>
+      <p>没有统计、没有广告、没有埋点。隐私清单里如实申报，只用了系统 UserDefaults。</p>
+    </div>
+    <div class="card">
+      <div class="ico">🗑️</div>
+      <h3>一键清空</h3>
+      <p>设置页可一键删除全部本地数据，不可恢复。卸载 App 也会一并删除。</p>
+    </div>
+  </div>
+  <p class="lead" style="margin-top:18px">
+    详细条款见 <a href="privacy.html" style="color:var(--indigo)">隐私政策</a> 与
+    <a href="terms.html" style="color:var(--indigo)">使用条款</a>。
+  </p>
+</section>
+
+<section id="faq">
+  <h2>常见问题</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>默认参数准不准？</h3>
+      <p>默认值取自自由职业者的常见情况（月自缴社保 2200 元 / 月 160 小时 / 设备 3 年 /
+      沟通 20% / 返工 15% / 税率 3%）。它们是「合理的起点」，不是你的实际情况 ——
+      请按自己的数字在「成本参数」里调整。</p>
+    </div>
+    <div class="card">
+      <h3>税费是价内还是价外？</h3>
+      <p>价外。税费按「不含税报价 × 税率」计算，加在最后，与常见的开票口径一致，
+      也避免了「税上计税」的循环依赖。</p>
+    </div>
+    <div class="card">
+      <h3>免费版能用多久？</h3>
+      <p>永久。免费版的报价测算功能没有限制，唯一限制是只能保存 1 套方案。
+      测算能力不会被拿去做付费墙。</p>
+    </div>
+    <div class="card">
+      <h3>换手机了数据怎么办？</h3>
+      <p>用「方案 → 导出备份」生成 JSON 文件，在新设备上「导入备份」即可。
+      因为没有云端账号，备份文件是你唯一的迁移途径，请妥善保管。</p>
+    </div>
+    <div class="card">
+      <h3>会做安卓版吗？</h3>
+      <p>目前专注 iOS，把一件事做好。暂无安卓计划。</p>
+    </div>
+    <div class="card">
+      <h3>测算结果能当财税依据吗？</h3>
+      <p>不能。App 内与 PDF 报价单上都持续标注：测算结果仅供报价参考，
+      不构成财税、法务或商务决策建议。实际金额请以当地政策与专业机构核算为准。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="disclaimer">
+    <strong>免责声明：</strong>本网站的介绍与 App 内的测算结果仅供报价参考，不构成财税、法务或商务决策建议。
+    社保、税费等实际金额请以当地政策与专业机构核算为准。示例参数与示例数字均为演示用途。
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>
+    <a href="index.html">首页</a> ·
+    <a href="support.html">技术支持</a> ·
+    <a href="privacy.html">隐私政策</a> ·
+    <a href="terms.html">使用条款</a>
+  </p>
+  <p style="margin-top:14px">时算 — 自由职业报价与真实时薪计算器</p>
+  <p style="margin-top:8px">© 2026 时算. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

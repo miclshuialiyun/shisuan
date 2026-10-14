@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>技术支持 — 时算</title>
+<style>
+  :root{ --ink:#0E1220; --muted:#5B6580; --line:#DFE5F2; --bg:#F4F6FC; --soft:#EDF1FA;
+         --indigo:#2E3A8C; --indigo-deep:#1B2459; --gold:#A7781A; --gold-bright:#F5C86B; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    color:var(--ink);line-height:1.8;background:var(--bg);-webkit-font-smoothing:antialiased;}
+  header{background:linear-gradient(160deg,#1B2459 0%,#3A3C93 55%,#6A5BD8 100%);color:#fff;padding:44px 20px 38px;text-align:center;}
+  header h1{font-size:30px;font-weight:900;letter-spacing:1px;margin-top:12px;}
+  header p{opacity:.8;font-size:14px;margin-top:8px;}
+  main{max-width:820px;margin:0 auto;padding:40px 20px 60px;}
+  section{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-bottom:18px;}
+  h2{font-size:19px;color:var(--indigo-deep);margin-bottom:12px;}
+  h3{font-size:16px;color:var(--indigo-deep);margin:16px 0 6px;}
+  p,li{font-size:14.5px;color:#374151;}
+  ol,ul{padding-left:22px;margin-top:6px;}
+  li{margin:7px 0;}
+  .contact{background:linear-gradient(160deg,#1B2459 0%,#2E3A8C 100%);color:#fff;border-radius:18px;padding:24px;text-align:center;}
+  .contact .mail{font-size:18px;font-weight:700;color:var(--gold-bright);letter-spacing:.5px;
+    display:inline-block;margin-top:10px;padding:8px 18px;border-radius:999px;background:rgba(255,255,255,.12);}
+  .contact p{color:rgba(255,255,255,.86);font-size:14px;margin-top:10px;}
+  table{width:100%;border-collapse:collapse;margin-top:10px;}
+  th,td{padding:10px 12px;border-bottom:1px solid var(--line);font-size:14px;text-align:left;vertical-align:top;}
+  th{background:var(--soft);color:var(--indigo-deep);width:38%;}
+  .qa{margin-bottom:14px;padding-bottom:14px;border-bottom:1px dashed var(--line);}
+  .qa:last-child{border-bottom:0;padding-bottom:0;margin-bottom:0;}
+  .qa b{color:var(--indigo-deep);}
+  footer{border-top:1px solid var(--line);background:#fff;padding:26px 20px 40px;text-align:center;color:var(--muted);font-size:13px;}
+  footer a{color:var(--indigo);text-decoration:none;}
+  a{color:var(--indigo);}
+</style>
+</head>
+<body>
+
+<header>
+  <div>时算 · 技术支持</div>
+  <h1>技术支持</h1>
+  <p>版本 1.0 · 支持 iOS 17 及以上 · iPhone</p>
+</header>
+
+<main>
+
+<div class="contact">
+  <h2 style="color:#fff">联系我们</h2>
+  <p>遇到问题、想提建议、或需要核对订单？发邮件给我们，通常 1–3 个工作日内回复。</p>
+  <div class="mail"><a href="mailto:miclshui@gmail.com" style="color:#F5C86B;text-decoration:none">miclshui@gmail.com</a></div>
+  <p style="font-size:13px;opacity:.75">来信请注明：App 版本、iOS 版本、问题描述，以及（如涉及订单）脱敏订单号。</p>
+</div>
+
+<section>
+  <h2>常见问题</h2>
+
+  <div class="qa">
+    <h3>已经扣款了，但高级版没有解锁？</h3>
+    <p>请按以下顺序处理：</p>
+    <ol>
+      <li>在 App「设置 → 恢复购买」点一次恢复（需联网，请使用与购买时相同的 Apple ID）。</li>
+      <li>重启 App，再试一次。</li>
+      <li>若仍未解锁，请发邮件给我们，附上「设置 → 查看购买记录」中的脱敏订单号、App 版本与 iOS 版本，我们会人工核对。</li>
+    </ol>
+    <p>内购页如果同时出现「检测到解锁异常」等提示，也请把该提示截图一并发来，能大幅缩短排查时间。</p>
+  </div>
+
+  <div class="qa">
+    <h3>换手机 / 重装后，方案都不见了？</h3>
+    <p>时算没有账号与云端同步，数据只存在设备本地。因此换机前请务必：</p>
+    <ol>
+      <li>在旧设备上打开「方案 → 右上角菜单 → 导出备份（JSON）」。</li>
+      <li>把生成的 JSON 文件保存到「文件」App、隔空投送或云盘。</li>
+      <li>在新设备上「方案 → 右上角菜单 → 导入备份」选择该文件。</li>
+    </ol>
+    <p>若出现同名方案，可以选「覆盖同名方案」或「保留双方（重名加副本后缀）」。</p>
+  </div>
+
+  <div class="qa">
+    <h3>为什么我算出来的「真实时薪」比我填的期望时薪还高？</h3>
+    <p>因为「建议报价」里包含了期望利润率（默认 20%）与税费。
+    真实时薪 = 建议报价 ÷ 总投入工时（含沟通与返工）。利润率越高，真实时薪越可能超过你填的期望时薪。</p>
+    <p>真正反映「隐性成本吃掉多少」的是「朴素时薪」与「时薪缩水率」：
+    它们假设你只按「工时 × 时薪」报价，再把这个金额摊到全部投入工时上。</p>
+  </div>
+
+  <div class="qa">
+    <h3>税费是按什么口径算的？</h3>
+    <p>价外税：<code>税费 = 不含税报价 × 税率</code>，其中不含税报价 = 总成本 + 利润。
+    最终「建议报价」= 不含税报价 + 税费。这与常见的开票口径一致，也避免了「税上计税」的循环计算。
+    如果你的业务不需要计税，直接把「税费预估」关掉即可。</p>
+  </div>
+
+  <div class="qa">
+    <h3>默认参数不适用于我的情况，能改吗？</h3>
+    <p>可以。报价页右上角的滑杆图标进入「成本参数」，可以调整月自缴社保额、月可计费工时、
+    设备购入价、使用年限、年接单工时、沟通比例、返工比例与税率。
+    每项隐性成本也可以单独开关，关闭后即从测算中剔除。</p>
+  </div>
+
+  <div class="qa">
+    <h3>PDF 报价单在哪里导出？</h3>
+    <p>PDF 报价单属于<strong>高级版功能</strong>。在报价页或方案详情页点「导出 PDF 报价单」即可预览并分享。
+    如果按钮提示需要升级，说明当前是免费版。</p>
+  </div>
+
+  <div class="qa">
+    <h3>数据会上传吗？</h3>
+    <p>不会。时算不收集、不上传任何数据，也没有账号系统。所有计算与存储都在你的设备上完成，
+    也没有任何第三方统计或广告 SDK。详见<a href="privacy.html">隐私政策</a>。</p>
+  </div>
+
+  <div class="qa">
+    <h3>如何彻底删除我的数据？</h3>
+    <p>「设置 → 清空全部本地数据」会删除所有方案与成本参数设置（<strong>不可恢复</strong>，操作前建议先导出备份）。
+    卸载 App 也会一并删除全部本地数据。</p>
+  </div>
+</section>
+
+<section>
+  <h2>反馈问题时请附带</h2>
+  <table>
+    <tbody>
+      <tr><th>必填</th><td>问题描述（最好有截图或录屏）、App 版本、iOS 版本</td></tr>
+      <tr><th>涉及订单时</th><td>「设置 → 查看购买记录」中的脱敏订单号（App 反馈入口会自动附上）</td></tr>
+      <tr><th>涉及数据时</th><td>操作步骤与预期结果（不要发含商业机密的方案内容）</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>其他</h2>
+  <ul>
+    <li><a href="privacy.html">隐私政策</a></li>
+    <li><a href="terms.html">使用条款</a></li>
+    <li><a href="index.html">功能介绍</a></li>
+  </ul>
+</section>
+
+</main>
+
+<footer>
+  <p><a href="index.html">首页</a> · <a href="support.html">技术支持</a> · <a href="privacy.html">隐私政策</a> · <a href="terms.html">使用条款</a></p>
+  <p style="margin-top:12px">© 2026 时算. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
